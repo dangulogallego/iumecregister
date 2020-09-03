@@ -1,0 +1,44 @@
+{% extends 'index.html' %} {% load dates %} {% load static %} {% block content %}
+  <div class="wrapper wrapper--w960">
+    <div class="card card-2">
+      <div class="card-heading"></div>
+        <div class="card-body">
+            <h2 class="title">REGISTRO</h2>
+            {% if message %}
+              <div class="alert alert-warning" role="alert">
+                  {{ message }}
+              </div>
+            {% endif %}
+            <form method="POST" id="registerForm">
+              {% csrf_token %}
+              <div class="input-group">
+                  <input class="input--style-2" type="text" placeholder="Número de Identificación" name="username" required>
+              </div>
+              <div class="input-group">
+                  <input class="input--style-2" type="text" placeholder="Nombre(s)" name="first_name" required>
+              </div>
+              <div class="input-group">
+                  <input class="input--style-2" type="text" placeholder="Apellidos" name="last_name" required>
+              </div>
+              <div class="input-group">
+                  <input class="input--style-2" type="text" placeholder="Teléfono" name="phone" required>
+              </div>
+              <h4 style="font-weight:bold;margin-bottom:8px;">Fechas Disponibles <span style="font-size:13px;font-weight:100;font-style:italic;">(Seleccione una presionando sobre el círculo)</span></h4>
+              <div class="row row-space">
+                <div class="col-4">
+                  {% for date in dates %}
+                    <div style="margin-bottom:5px;">
+                      <input style="width:auto;" type="radio" id="male" name="date_id" value="{{ date.id }}">
+                      <label >{{ date.date | dates }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="p-t-30">
+                  <button class="btn btn--radius btn--green" type="submit">Enviar</button>
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>
+{% endblock %}
