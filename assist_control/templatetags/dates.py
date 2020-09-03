@@ -1,7 +1,7 @@
 from django.template import Library
 import locale
 import datetime
-locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+locale.setlocale(locale.LC_TIME, 'es_CO.UTF-8')
 
 register = Library()
 
