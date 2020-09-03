@@ -9,4 +9,4 @@ register = Library()
 @register.filter(is_safe=True)
 def dates(value):
     date = datetime.datetime.strptime(value, '%Y-%m-%d %H:%M')
-    return date.strftime('%A, %B %d %Y %H:%M %p')
+    return date.strftime('%A, %d. %B %I:%M%p')

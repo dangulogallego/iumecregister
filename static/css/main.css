@@ -34,12 +34,6 @@
   width: calc((100% - 60px) / 2);
 }
 
-@media (max-width: 767px) {
-  .col-2 {
-    width: 100%;
-  }
-}
-
 /* ==========================================================================
    #BOX-SIZING
    ========================================================================== */
@@ -177,7 +171,7 @@ h6 {
 }
 
 .p-t-180 {
-  padding-top: 180px;
+  padding-top: 140px;
 }
 
 .p-t-20 {
@@ -495,14 +489,33 @@ input {
   .card-2 .card-heading {
     width: 100%;
     display: block;
-    padding-top: 300px;
+    padding-top: 100px;
     background-position: left center;
   }
   .card-2 .card-body {
     display: block;
-    padding: 60px 50px;
+    padding: 60px 20px;
+  }
+  .col-2 {
+    width: 100%;
+  }
+  .p-t-180 {
+    padding-top: 20px !important;
+  }
+  .p-b-100 {
+    padding-bottom: 20px;
   }
 }
+
+@media (max-width: 812px) {
+  .p-t-180 {
+    padding-top: 20px !important;
+  }
+  .p-b-100 {
+    padding-bottom: 20px;
+  }
+}
+
 
 .alert-warning {
   color: #856404;
@@ -516,4 +529,22 @@ input {
     margin-bottom: 1rem;
     border: 1px solid transparent;
     border-radius: .25rem;
+}
+
+@media (min-width: 768px) and (max-width: 768px) {
+  .p-t-180 {
+    padding-top: 120px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .p-t-180 {
+    padding-top: 70px !important;
+  }
+}
+
+@media (min-width: 1366px) {
+  .p-t-180 {
+    padding-top: 140px !important;
+  }
 }
