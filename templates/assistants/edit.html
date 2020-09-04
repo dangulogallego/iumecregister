@@ -1,0 +1,35 @@
+{% extends 'index.html' %} {% load dates %} {% load static %} {% block content %}
+
+<div class="wrapper wrapper--w960" style="margin-top: -90px;">
+  {% include "navbar.html" %}
+  <div class="card card-2">
+      <div class="card-body" style="height: 590px;">
+        <div id="editar-paciente-container" class="offset-md-2 col-8">
+          <h2 class="title">EDITAR INFORMACIÓN</h2>
+          {% if message and success %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+          {% endif %}
+            <form method="post" id="editarPacienteForm">
+              {% csrf_token %}
+              {% for field in form %}
+                <div class="form-group">
+                  {{ field.label_tag }}
+                  {{ field }}
+                </div>
+              {% endfor %}
+              <div class="row">
+                <div class="col col-md-4 col-lg-4">
+                  <button type="submit" class="btn btn-primary text-center">Guardar</button>
+                </div>
+                <div class="col col-md-4 col-lg-4">
+                  <a href="{% url 'service_assistants' service_pk=assistant_service.service_id %}" class="btn btn-outline-secondary">Volver</a>
+                </div>
+              </div>
+            </form>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

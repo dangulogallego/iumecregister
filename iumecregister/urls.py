@@ -19,5 +19,11 @@ from assist_control.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', home, name='index'),
     url(r'^assist/register/$', register_assistance, name='register_assistance'),
+    url(r'^services/list/$', services_list, name='services_list'),
+    url(r'^services/(?P<service_pk>[0-9]+)/assistants/$', service_assistants, name='service_assistants'),
+    url(r'^services/assistants/(?P<assistant_service_pk>[0-9]+)/complete/$', complete_assistant, name='complete_assistant'),
+    url(r'^services/(?P<service_pk>[0-9]+)/assistants/delete$', remove_non_attendees, name='remove_non_attendees'),
+    url(r'^assistants/(?P<assistant_service_pk>[0-9]+)/edit/$', edit_assistant, name='edit_assistant'),
 ]

@@ -1,0 +1,71 @@
+{% extends 'index.html' %} {% load dates %} {% load static %} {% block content %}
+
+<div class="wrapper wrapper--w960">
+  {% include "navbar.html" %}
+  <div class="card card-2">
+      <div class="card-body" style="height: 590px;">
+          {% if assistants %}
+            <!-- <a href="{% url 'service_assistants' service_pk=assistants.0.service_id %}" class="btn btn-primary float-right" ><span style="color:white;">Actualizar</span></a> -->
+            <div style="display: flex;float: right;">
+              <form method="get" action="" style="display:flex;">
+                <input type="text" name="filter" placeholder="Buscar" style="float: left;border-bottom: 1px solid #eaeaea;margin-right: 5px;font-style: italic;">
+                <button type="submit" class="btn btn-secondary float-right"> Buscar </button>
+              </form>
+            </div>
+            <h2 class="title">INSCRITOS <span style="font-size: 19px;font-style: italic;"> ({{assistants.0.day | parse_date}} {{assistants.0.hour | parse_time}}) </span></h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Identificación</th>
+                  <th scope="col">Nombre(s)</th>
+                  <th scope="col">Apellidos</th>
+                  <th scope="col">Asistió</th>
+                  <th style="text-align: center;" scope="col">Editar</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for assistant in assistants  %}
+                  <tr>
+                    {% if assistant.attended == 'Y' %}
+                      <td style="font-style:italic;">{{assistant.id}}</td>
+                    {% else %}
+                      <td style="font-style:italic;"><a style="text-transform: capitalize;" href="{% url 'complete_assistant' assistant_service_pk=assistant.service_assistant_id %}">{{assistant.id}}</a></td>
+                    {% endif %}
+                    <td style="font-style:italic;">{{assistant.name}}</td>
+                    <td style="font-style:italic;">{{assistant.last_name}}</td>
+                    <td style="font-style:italic;">{{assistant.attended | parse_yes_not}}</td>
+                    <td style="text-align: center;"><a href="{% url 'edit_assistant' assistant_service_pk=assistant.service_assistant_id %}"><i style="font-size: 18px;" class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+            {% if assistants_paginator.has_other_pages %}
+                <ul class="pagination" style="float: right;">
+                  {% if assistants_paginator.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ assistants_paginator.previous_page_number }}">&laquo;</a></li>
+                  {% else %}
+                    <li class="disabled page-item"><span class="page-link">&laquo;</span></li>
+                  {% endif %}
+                  {% for i in assistants_paginator.paginator.page_range %}
+                    {% if assistants_paginator.number == i %}
+                      <li class="active page-item"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if assistants_paginator.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ assistants_paginator.next_page_number }}">&raquo;</a></li>
+                  {% else %}
+                    <li class="disabled page-item"><span class="page-link">&raquo;</span></li>
+                  {% endif %}
+                </ul>
+            {% endif %}
+          {% else %}
+  		      <p class="text-center"> No se han encontrado resultados!</p>
+            <a href="{% url 'service_assistants' service_pk=service_id %}" class="btn btn-primary float-right" ><span style="color:white;">Regresar</span></a>
+  	      {% endif %}
+      </div>
+  </div>
+</div>
+{% endblock %}

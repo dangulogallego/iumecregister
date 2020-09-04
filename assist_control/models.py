@@ -14,20 +14,40 @@ class Assistant(models.Model):
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=30, null=True)
-    created_date = models.DateField(auto_now=True)
+    created_date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.id
+
+    def __str__(self):
+        return str(self.id) +  ' - ' + str(self.name)
 
 class Service(models.Model):
     day = models.DateField()
     hour = models.TimeField()
     max_attendees = models.IntegerField()
     state = models.CharField(max_length=1, null=True, default='Y')
-    created_date = models.DateField(auto_now=True)
+    created_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.day) +  ' - ' + str(self.hour)
+
 
 class AssistantService(models.Model):
     assistant = models.ForeignKey( 'Assistant', on_delete=models.CASCADE)
     service = models.ForeignKey('Service', on_delete=models.CASCADE)
     attended = models.CharField(max_length=1, null=True, default='N')
-    created_date = models.DateField(auto_now=True)
+    attended_date = models.DateTimeField(null=True)
+    created_date = models.DateTimeField(auto_now=True)
+    fever = models.CharField(max_length=1, default='N', null=True)
+    cough = models.CharField(max_length=1, default='N', null=True)
+    headache = models.CharField(max_length=1, default='N', null=True)
+    sore_throat = models.CharField(max_length=1, default='N', null=True)
+    general_discomfort = models.CharField(max_length=1, default='N', null=True)
+    respiratory_difficulty = models.CharField(max_length=1, default='N', null=True)
+    adinamia = models.CharField(max_length=1, default='N', null=True)
+    nasal_secretions = models.CharField(max_length=1, default='N', null=True)
+    diarrhea = models.CharField(max_length=1, default='N', null=True)
+    temperature = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    close_person = models.CharField(max_length=1, default='N', null=True)
+    washed = models.CharField(max_length=1, default='N', null=True)

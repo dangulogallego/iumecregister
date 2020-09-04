@@ -547,4 +547,53 @@ input {
   .p-t-180 {
     padding-top: 140px !important;
   }
+  #formRegister {
+    margin-top: -60px;
+  }
+}
+
+.list-group-flush:first-child {
+    border-top: 0;
+}
+
+.list-group-flush >li {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    position: relative;
+    display: block;
+    padding: 2px 11px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.list-group-flush >li >label{
+  display: flex;
+    justify-content: center;
+    float: left;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+.list-group-flush >li >label>input{
+  width: 30px;
+}
+
+#editarPacienteForm .form-group >label:first-child {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.btn-outline-secondary {
+  color: #6c757d !important;
+  background-color: transparent;
+  background-image: none;
+  border-color: #6c757d !important;
+}
+
+.btn-outline-secondary:hover {
+    color: #fff !important;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
 }
