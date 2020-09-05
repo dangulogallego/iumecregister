@@ -49,9 +49,9 @@ class CompleteAssistan(ModelForm):
         self.fields['last_name'].label = "Apellidos"
         self.fields['phone'].label = "Teléfono"
         self.fields['temperature'].label = "Temperatura"
-        self.fields['symptoms'].label = "¿Ha presentado alguno de estos síntomas en las últimas 24 hotas?"
-        self.fields['close_person'].label = "¿Ha estado en contacto con alguien que presente los anteriores sintomas en las ultimas 24 horas?"
-        self.fields['washed'].label = "¿Realizo el lavado o desinfeccion de las manos antes de ingresar a las instalaciones?"
+        self.fields['symptoms'].label = "¿Ha presentado alguno de estos síntomas en las últimas 24 horas?"
+        self.fields['close_person'].label = "¿Ha estado en contacto con alguien que presente los anteriores sintomas en las últimas 24 horas?"
+        self.fields['washed'].label = "¿Realizó el lavado o desinfección de las manos antes de ingresar a las instalaciones?"
 
     class Meta:
         model = Assistant

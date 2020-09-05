@@ -20,7 +20,7 @@
                   <th scope="col">Nombre(s)</th>
                   <th scope="col">Apellidos</th>
                   <th scope="col">Asistió</th>
-                  <th style="text-align: center;" scope="col">Editar</th>
+                  <th style="text-align: center;" scope="col">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -34,7 +34,12 @@
                     <td style="font-style:italic;">{{assistant.name}}</td>
                     <td style="font-style:italic;">{{assistant.last_name}}</td>
                     <td style="font-style:italic;">{{assistant.attended | parse_yes_not}}</td>
-                    <td style="text-align: center;"><a href="{% url 'edit_assistant' assistant_service_pk=assistant.service_assistant_id %}"><i style="font-size: 18px;" class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                    <td style="text-align: center;">
+                      <a href="{% url 'edit_assistant' assistant_service_pk=assistant.service_assistant_id %}"><i style="font-size: 18px;" class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                      {% if assistant.attended != 'Y' %}
+                        <a style="margin-left: 7px;" href="{% url 'remove_non_attendee' assistant_service_pk=assistant.service_assistant_id %}"><i style="font-size: 18px;color: red;" class="fa fa-trash" aria-hidden="true"></i></a>
+                      {% endif %}
+                    </td>
                   </tr>
                 {% endfor %}
               </tbody>

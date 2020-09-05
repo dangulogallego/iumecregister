@@ -11,11 +11,18 @@ from .models import (
 )
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth import logout
 
 # Create your views here.
+def logout_view(request):
+    logout(request)
+    return redirect('index')
 
 def home(request):
-    return redirect('register_assistance')
+    if request.user.is_authenticated:
+        return redirect('services_list')
+    else:
+        return redirect('register_assistance')
 
 
 def register_assistance(request):
@@ -107,20 +114,24 @@ def register_assistance(request):
 
 
 def services_list(request):
-    dates = [
-        {
-            'id': s.id,
-            'day': datetime.strftime(s.day, '%Y-%m-%d'),
-            'hour': s.hour,
-            'max_attendees': s.max_attendees,
-            'inscribed': AssistantService.objects.filter(service_id=s.id).count(),
-            'attendees': AssistantService.objects.filter(attended='Y', service_id=s.id).count()
-        } for s in Service.objects.filter(state='Y')
-    ]
+    if request.user.is_authenticated:
+        dates = [
+            {
+                'id': s.id,
+                'day': datetime.strftime(s.day, '%Y-%m-%d'),
+                'hour': s.hour,
+                'max_attendees': s.max_attendees,
+                'inscribed': AssistantService.objects.filter(service_id=s.id).count(),
+                'attendees': AssistantService.objects.filter(attended='Y', service_id=s.id).count(),
+                'diference_to_delete': AssistantService.objects.filter(service_id=s.id).count() - AssistantService.objects.filter(attended='Y', service_id=s.id).count()
+            } for s in Service.objects.filter(state='Y')
+        ]
 
-    return render(request, 'services/list.html', {
-        'services': dates
-    })
+        return render(request, 'services/list.html', {
+            'services': dates
+        })
+    else:
+        return redirect('login')
 
 
 def service_assistants(request, service_pk):
@@ -229,3 +240,12 @@ def remove_non_attendees(request, service_pk):
     ).delete()
 
     return redirect('services_list')
+
+
+def remove_non_attendee(request, assistant_service_pk):
+    assistant_service = AssistantService.objects.get(
+        id=assistant_service_pk
+    )
+    service_id = assistant_service.service_id
+    assistant_service.delete()
+    return redirect('service_assistants', service_pk=service_id)

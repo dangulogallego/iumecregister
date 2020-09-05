@@ -16,7 +16,7 @@
                 <th scope="col">Inscritos</th>
                 <th scope="col">Máx. Asistentes</th>
                 <th scope="col">Disponibles</th>
-                <th scope="col"></th>
+                <th style="font-style:italic;" scope="col">Liberar</th>
               </tr>
             </thead>
             <tbody>
@@ -42,7 +42,7 @@
                   <td style="text-align:center;font-style: italic">{{service.max_attendees}}</td>
                   <td style="text-align:center;font-style: italic">{{ service.max_attendees | subtract:service.inscribed }}</td>
                   <td style="text-align: center;">
-                    {% if service.inscribed > 0 %}
+                    {% if service.diference_to_delete > 0 %}
                       <a href="{% url 'remove_non_attendees' service_pk=service.id %}" title="Eliminar los registros de las personas que no asistieron al servicio."><i style="font-size: 18px;color: red;" class="fa fa-trash" aria-hidden="true"></i></a>
                     {% endif %}
                   </td>

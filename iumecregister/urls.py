@@ -16,14 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from assist_control.views import *
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home, name='index'),
+    url(r'^login/$', LoginView.as_view(template_name='login.html'), name='login'),
+    url(r'^logout/$', logout_view, name='logout'),
     url(r'^assist/register/$', register_assistance, name='register_assistance'),
     url(r'^services/list/$', services_list, name='services_list'),
     url(r'^services/(?P<service_pk>[0-9]+)/assistants/$', service_assistants, name='service_assistants'),
     url(r'^services/assistants/(?P<assistant_service_pk>[0-9]+)/complete/$', complete_assistant, name='complete_assistant'),
     url(r'^services/(?P<service_pk>[0-9]+)/assistants/delete$', remove_non_attendees, name='remove_non_attendees'),
     url(r'^assistants/(?P<assistant_service_pk>[0-9]+)/edit/$', edit_assistant, name='edit_assistant'),
+    url(r'^assistants/(?P<assistant_service_pk>[0-9]+)/remove/$', remove_non_attendee, name='remove_non_attendee'),
 ]

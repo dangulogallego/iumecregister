@@ -548,7 +548,7 @@ input {
     padding-top: 140px !important;
   }
   #formRegister {
-    margin-top: -60px;
+    margin-top: -90px;
   }
 }
 
@@ -596,4 +596,8 @@ input {
     color: #fff !important;
     background-color: #6c757d !important;
     border-color: #6c757d !important;
+}
+
+#login-container {
+  min-height: 250px;
 }

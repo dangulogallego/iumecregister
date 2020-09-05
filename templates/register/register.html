@@ -3,6 +3,9 @@
     <div class="card card-2">
       <div class="card-heading"></div>
         <div class="card-body">
+            <div class="row" style="justify-content: flex-end;font-style:italic;">
+              <a href="{% url 'services_list' %}">Administrar</a>
+            </div>
             <h2 class="title">REGISTRO (IUMEC BUGA)</h2>
             {% if message and not success %}
               <div class="alert alert-danger" role="alert">
