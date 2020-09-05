@@ -4,11 +4,14 @@ backcall==0.2.0
 decorator==4.4.2
 Django==3.1.1
 django-crispy-forms==1.9.2
+et-xmlfile==1.0.1
 ipdb==0.13.3
 ipython==7.16.1
 ipython-genutils==0.2.0
+jdcal==1.4.1
 jedi==0.17.2
 mysqlclient==2.0.1
+openpyxl==3.0.5
 parso==0.7.1
 pexpect==4.8.0
 pickleshare==0.7.5
@@ -19,4 +22,5 @@ pytz==2020.1
 six==1.15.0
 sqlparse==0.3.1
 traitlets==4.3.3
+Unidecode==1.1.1
 wcwidth==0.2.5
