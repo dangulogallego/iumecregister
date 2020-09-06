@@ -22,29 +22,48 @@
               <div class="input-group">
                   <input class="input--style-2" type="text" placeholder="Número de Identificación" name="username" required>
               </div>
-              <div class="input-group">
-                  <input class="input--style-2" type="text" placeholder="Nombre(s)" name="first_name" required>
-              </div>
-              <div class="input-group">
-                  <input class="input--style-2" type="text" placeholder="Apellidos" name="last_name" required>
-              </div>
-              <div class="input-group" style="margin-bottom: 0px">
-                  <input class="input--style-2" type="tel" placeholder="Número Celular" id="phone" name="phone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" maxlength="12" title="Por favor ingrese un número de celular válido Ejemplo: 3123456789">
-              </div>
-              <label style="margin-bottom: 25px;font-style:italic;color:#666;font-size: 13px;"><b>Nota:</b> En caso de no tener un número celular, dejar este campo vacío.</label>
-              <h4 style="font-weight:bold;margin-bottom:8px;">Fechas Disponibles <span style="font-size:13px;font-weight:100;font-style:italic;">(Seleccione una fecha presionando sobre el círculo)</span></h4>
-              <div class="row row-space">
-                <div class="col-12">
-                  {% for date in dates %}
-                    <div style="margin-bottom:5px;">
-                      <input style="width:auto;" type="radio" id="male" name="date_id" value="{{ date.id }}" required>
-                      <label style="text-transform: capitalize;">{{ date.date | dates }}</label>
-                    </div>
-                  {% endfor %}
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div class="input-group">
+                      <input class="input--style-2" type="text" placeholder="Nombre(s)" name="first_name" required>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="input-group">
+                      <input class="input--style-2" type="text" placeholder="Apellidos" name="last_name" required>
+                  </div>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div class="input-group">
+                      <input class="input--style-2" type="number" placeholder="Edad" id="age" name="age" required>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="input-group" style="margin-bottom: 0px">
+                      <input class="input--style-2" type="tel" placeholder="Número Celular" id="phone" name="phone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" maxlength="12" title="Por favor ingrese un número de celular válido Ejemplo: 3123456789">
+                  </div>
+                  <label style="margin-bottom: 25px;font-style:italic;color:#666;font-size: 13px;"><b>Nota:</b> En caso de no tener, dejar este campo vacío.</label>
+                </div>
+              </div>
+              {% if not dates %}
+                <p style="font-weight: bold;font-size: 15px;font-style: italic;margin-top: 15px;">Muy pronto estaremos publicando nuestros horarios para que te inscribas.</p>
+              {% else %}
+                <h4 style="font-weight:bold;margin-bottom:8px;">Fechas Disponibles <span style="font-size:13px;font-weight:100;font-style:italic;">(Seleccione una fecha presionando sobre el círculo)</span></h4>
+                <div class="row row-space">
+                  <div class="col-12">
+                    {% for date in dates %}
+                      <div style="margin-bottom:5px;">
+                        <input style="width:auto;" type="radio" id="male" name="date_id" value="{{ date.id }}" required>
+                        <label style="text-transform: capitalize;">{{ date.date | dates }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
               <div style="padding-top: 20px;">
-                  <button class="btn btn--radius btn--green" type="submit">Enviar</button>
+                  <button class="btn btn--radius btn--green" {% if not dates %} disabled {% endif %} type="submit">Enviar</button>
               </div>
               <label style="font-style:italic;color:#666;font-size: 13px;margin-top: 11px;"><b>Nota:</b> <li>Sólo es posible registrarse a un servicio a la vez.</li> <li><b>NO</b> se permitirá el ingreso a menores de 14 años.</li></label>
             </form>

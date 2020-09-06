@@ -3,7 +3,7 @@
 <div class="wrapper wrapper--w960">
   {% include "navbar.html" %}
   <div class="card card-2">
-      <div class="card-body" style="height: 590px;">
+      <div class="card-body" style="height: 590px;padding: 80px 40px;">
           <a href="{% url 'services_list' %}" class="btn btn-primary float-right" ><span style="color:white;">Actualizar</span></a>
           <h2 class="title">SERVICIOS ACTIVOS</h2>
           <table class="table">
@@ -12,6 +12,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Hora</th>
+                <th scope="col">Servidores</th>
                 <th scope="col">Asistentes</th>
                 <th scope="col">Inscritos</th>
                 <th scope="col">Máx. Asistentes</th>
@@ -37,6 +38,7 @@
                     {% endif %}
                   </td>
                   <td style="font-style: italic;">{{service.hour | parse_time}}</td>
+                  <td style="text-align:center;font-style: italic">{{service.severants}}</td>
                   <td style="text-align:center;font-style: italic">{{service.attendees}}</td>
                   <td style="text-align:center;font-style: italic">{{service.inscribed}}</td>
                   <td style="text-align:center;font-style: italic">{{service.max_attendees}}</td>

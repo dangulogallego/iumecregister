@@ -1,0 +1,130 @@
+{% extends 'index.html' %} {% load dates %} {% load static %} {% block content %}
+  <div class="wrapper wrapper--w960" id="formRegister">
+    <div class="card card-2">
+      <div class="card-heading"></div>
+        <div class="card-body">
+            <div class="row" style="justify-content: flex-end;font-style:italic;">
+              <a href="{% url 'services_list' %}">Administrar</a>
+            </div>
+            <h2 class="title">REGISTRO (IUMEC BUGA)</h2>
+            {% if message and not success %}
+              <div class="alert alert-danger" role="alert">
+                  {{ message }}
+              </div>
+            {% endif %}
+            {% if message and success %}
+              <div class="alert alert-success" role="alert">
+                  {{ message }}
+              </div>
+            {% endif %}
+            <form method="POST" id="registerServantForm">
+              {% csrf_token %}
+              <div class="input-group">
+                  <input class="input--style-2" type="text" placeholder="Número de Identificación" name="id" required>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div class="input-group">
+                      <input class="input--style-2" type="text" placeholder="Nombre(s)" name="name" required>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="input-group">
+                      <input class="input--style-2" type="text" placeholder="Apellidos" name="last_name" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div class="input-group">
+                      <input class="input--style-2" type="number" placeholder="Edad" id="age" name="age" required>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="input-group">
+                      <input class="input--style-2" type="tel" placeholder="Número Celular" id="phone" name="phone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" maxlength="12" title="Por favor ingrese un número de celular válido Ejemplo: 3123456789">
+                  </div>
+                  <label style="margin-bottom: 25px;font-style:italic;color:#666;font-size: 13px;"><b>Nota:</b> En caso de no tener, dejar este campo vacío.</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="input-group">
+                      <input class="input--style-2" type="text" placeholder="Dirección" id="address" name="address">
+                  </div>
+                </div>
+              </div>
+              {% if not dates %}
+                <p style="font-weight: bold;font-size: 15px;font-style: italic;margin-top: 15px;">Muy pronto estaremos publicando nuestros horarios para que te inscribas.</p>
+              {% else %}
+                <h4 style="font-weight:bold;margin-bottom:8px;">Fechas Disponibles <span style="font-size:13px;font-weight:100;font-style:italic;">(Seleccione una fecha presionando sobre el círculo)</span></h4>
+                <div class="row row-space">
+                  <div class="col-12">
+                    {% for date in form.dates %}
+                      <div style="margin-bottom:5px;">
+                        {{ date.label_tag }}
+                        {{ date }}
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+              <div class="row" style="margin-top:15px;">
+                <div class="col-12">
+                  <div class="input-group">
+                      <input class="input--style-2" type="number" placeholder="Temperatura" id="temperature" name="temperature" required>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label style="font-weight:bold;font-style:italic;">¿Ha presentado alguno de estos síntomas en las últimas 24 horas?</label>
+                <ul id="id_symptoms" class="list-group list-group-flush">
+                  <li>
+                    <label for="id_symptoms_0"><input type="checkbox" name="symptoms" value="f" class="list-group list-group-flush" id="id_symptoms_0"> Fiebre</label>
+                  </li>
+                  <li>
+                    <label for="id_symptoms_1"><input type="checkbox" name="symptoms" value="t" class="list-group list-group-flush" id="id_symptoms_1">Tos</label>
+                  </li>
+                  <li>
+                    <label for="id_symptoms_2"><input type="checkbox" name="symptoms" value="c" class="list-group list-group-flush" id="id_symptoms_2">Cefalea</label>
+                  </li>
+                  <li>
+                    <label for="id_symptoms_3"><input type="checkbox" name="symptoms" value="dg" class="list-group list-group-flush" id="id_symptoms_3">Dolor de Garganta</label>
+                  </li>
+                  <li>
+                    <label for="id_symptoms_4"><input type="checkbox" name="symptoms" value="mg" class="list-group list-group-flush" id="id_symptoms_4">Malestar General</label>
+                  </li>
+                  <li>
+                    <label for="id_symptoms_5"><input type="checkbox" name="symptoms" value="dr" class="list-group list-group-flush" id="id_symptoms_5">Dificultad Respiratoria</label>
+                  </li>
+                  <li>
+                    <label for="id_symptoms_6"><input type="checkbox" name="symptoms" value="a" class="list-group list-group-flush" id="id_symptoms_6">Adinamia</label>
+                  </li>
+                  <li>
+                    <label for="id_symptoms_7"><input type="checkbox" name="symptoms" value="sn" class="list-group list-group-flush" id="id_symptoms_7">Secreciones Nasales</label>
+                  </li>
+                  <li>
+                    <label for="id_symptoms_8"><input type="checkbox" name="symptoms" value="d" class="list-group list-group-flush" id="id_symptoms_8">Diarrea</label>
+                  </li>
+                </ul>
+              </div>
+              <div class="form-group">
+                <label style="font-weight:bold;font-style:italic;" for="id_close_person">¿Ha estado en contacto con alguien que presente los anteriores sintomas en las últimas 24 horas?</label>
+                <input type="checkbox" name="close_person" id="id_close_person">
+              </div>
+              <div class="form-group">
+                <label style="font-weight:bold;font-style:italic;" for="id_washed">¿Realizó el lavado o desinfección de las manos antes de ingresar a las instalaciones?</label>
+                <input type="checkbox" name="washed" id="id_washed">
+              </div>
+              <div class="form-group">
+                <label style="font-weight:bold;font-style:italic;" for="id_agree">¿Está de acuerdo en cumplir a cabalidad con todas las recomendaciones y los procedimientos que la iglesia ha adoptado para la preservación de su salud?</label>
+                <input type="checkbox" name="agree" id="id_agree">
+              </div>
+              <div style="padding-top: 20px;">
+                  <button class="btn btn--radius btn--green" {% if not dates %} disabled {% endif %} type="submit">Enviar</button>
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>
+{% endblock %}

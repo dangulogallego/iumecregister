@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^services/(?P<service_pk>[0-9]+)/assistants/delete$', remove_non_attendees, name='remove_non_attendees'),
     url(r'^assistants/(?P<assistant_service_pk>[0-9]+)/edit/$', edit_assistant, name='edit_assistant'),
     url(r'^assistants/(?P<assistant_service_pk>[0-9]+)/remove/$', remove_non_attendee, name='remove_non_attendee'),
+    url(r'^assist/servant/register/$', register_servant, name='register_servant'),
 ]

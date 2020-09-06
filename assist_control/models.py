@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Assistant(models.Model):
+    BooleanChoises = (
+        ('Y', 'Si'),
+        ('N', 'No')
+    )
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -13,7 +17,10 @@ class Assistant(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=100)
+    age = models.IntegerField(null=True)
     phone = models.CharField(max_length=30, null=True)
+    address = models.CharField(max_length=200, null=True)
+    is_servant = models.CharField(max_length=1, null=True, default='N', choices=BooleanChoises)
     created_date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
@@ -23,10 +30,14 @@ class Assistant(models.Model):
         return str(self.id) +  ' - ' + str(self.name)
 
 class Service(models.Model):
+    BooleanChoises = (
+        ('Y', 'Activo'),
+        ('N', 'Inactivo')
+    )
     day = models.DateField()
     hour = models.TimeField()
     max_attendees = models.IntegerField()
-    state = models.CharField(max_length=1, null=True, default='Y')
+    state = models.CharField(max_length=1, null=True, default='Y', choices=BooleanChoises)
     created_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -51,3 +62,4 @@ class AssistantService(models.Model):
     temperature = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     close_person = models.CharField(max_length=1, default='N', null=True)
     washed = models.CharField(max_length=1, default='N', null=True)
+    agree = models.CharField(max_length=1, default='N', null=True)

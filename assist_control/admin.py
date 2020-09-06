@@ -45,10 +45,10 @@ class AssistantServiceAdmin(admin.ModelAdmin):
     search_fields = ('assistant_id', 'get_assistan_name',)
 
     def get_date_attended(self, obj):
-        return datetime.strftime(obj.attended_date, '%Y-%m-%d')
+        return datetime.strftime(obj.attended_date, '%Y-%m-%d') if obj.attended_date else None
 
     def get_hour_attended(self, obj):
-        return datetime.strftime(obj.attended_date, '%I:%M %p')
+        return datetime.strftime(obj.attended_date, '%I:%M %p') if obj.attended_date else None
 
     def get_full_name(self, obj):
         return obj.assistant.name + ' ' + obj.assistant.last_name
