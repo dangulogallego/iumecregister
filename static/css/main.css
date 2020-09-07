@@ -544,12 +544,12 @@ input {
 }
 
 @media (min-width: 1366px) {
-  .p-t-180 {
+  /* .p-t-180 {
     padding-top: 140px !important;
   }
   #formRegister {
     margin-top: -90px;
-  }
+  } */
 }
 
 .list-group-flush:first-child {

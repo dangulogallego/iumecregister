@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, AssistantService
+from .models import Service, AssistantService, Assistant
 from django.http import HttpResponse
 import csv
 from datetime import datetime
@@ -17,6 +17,18 @@ class ServiceAdmin(admin.ModelAdmin):
         'state'
     )
     search_fields = ('day',)
+
+
+@admin.register(Assistant)
+class AssistantAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+        'last_name',
+        'age'
+    )
+    search_fields = ('id', 'name', 'last_name')
+    list_filter = ('id', 'name', 'last_name')
 
 
 @admin.register(AssistantService)
@@ -41,7 +53,7 @@ class AssistantServiceAdmin(admin.ModelAdmin):
     )
 
     actions = [export_as_xls]
-
+    list_filter = ('service__day', 'attended_date', 'service__state', 'service__hour')
     search_fields = ('assistant_id', 'get_assistan_name',)
 
     def get_date_attended(self, obj):
