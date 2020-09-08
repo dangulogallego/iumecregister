@@ -31,14 +31,14 @@
                     {% endif %}
                   </th>
                   <td style="font-style: italic;">
-                    {% if service.inscribed > 0 or service.severants > 0  %}
+                    {% if service.inscribed > 0 or service.servants > 0  %}
                       <a style="text-transform: capitalize;" href="{% url 'service_assistants' service_pk=service.id %}">{{service.day | parse_date}}</a>
                     {% else %}
                       <div style="text-transform: capitalize;">{{service.day | parse_date}}</div>
                     {% endif %}
                   </td>
                   <td style="font-style: italic;">{{service.hour | parse_time}}</td>
-                  <td style="text-align:center;font-style: italic">{{service.severants}}</td>
+                  <td style="text-align:center;font-style: italic">{{service.servants}}</td>
                   <td style="text-align:center;font-style: italic">{{service.attendees}}</td>
                   <td style="text-align:center;font-style: italic">{{service.inscribed}}</td>
                   <td style="text-align:center;font-style: italic">{{service.max_attendees}}</td>

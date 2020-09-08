@@ -5,10 +5,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Assistant(models.Model):
-    BooleanChoises = (
-        ('Y', 'Si'),
-        ('N', 'No')
-    )
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -20,7 +16,6 @@ class Assistant(models.Model):
     age = models.IntegerField(null=True)
     phone = models.CharField(max_length=30, null=True)
     address = models.CharField(max_length=200, null=True)
-    is_servant = models.CharField(max_length=1, null=True, default='N', choices=BooleanChoises)
     created_date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
@@ -45,6 +40,10 @@ class Service(models.Model):
 
 
 class AssistantService(models.Model):
+    BooleanChoises = (
+        ('Y', 'Activo'),
+        ('N', 'Inactivo')
+    )
     assistant = models.ForeignKey( 'Assistant', on_delete=models.CASCADE)
     service = models.ForeignKey('Service', on_delete=models.CASCADE)
     attended = models.CharField(max_length=1, null=True, default='N')
@@ -63,3 +62,4 @@ class AssistantService(models.Model):
     close_person = models.CharField(max_length=1, default='N', null=True)
     washed = models.CharField(max_length=1, default='N', null=True)
     agree = models.CharField(max_length=1, default='N', null=True)
+    is_servant = models.CharField(max_length=1, null=True, default='N', choices=BooleanChoises)

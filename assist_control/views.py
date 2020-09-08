@@ -59,7 +59,7 @@ def register_assistance(request):
 
             if next:
                 # Se excluye a los servidores de los cupos disponibles
-                if not AssistantService.objects.filter(service_id=date_id, assistant__is_servant='N').count() < service.max_attendees:
+                if not AssistantService.objects.filter(service_id=date_id, is_servant='N').count() < service.max_attendees:
                     next = False
                     message = '¡Lo sentimos! Ya no hay cupo para el día (' + date_service + '), por favor intenta en otro horario.'
                     success = False
@@ -82,17 +82,16 @@ def register_assistance(request):
                     assistant.last_name = user.last_name
                     assistant.phone = phone
                     assistant.age = age
-                    assistant.is_servant = 'N'
                     assistant.save()
                 except Assistant.DoesNotExist:
                     assistant = Assistant(
                         user=user, id=user.username, name=user.first_name,
-                        last_name=user.last_name, phone=phone, age=age, is_servant='N'
+                        last_name=user.last_name, phone=phone, age=age
                     )
                     assistant.save()
 
                 assistant_service = AssistantService(
-                    assistant = assistant, service=service, attended='N'
+                    assistant = assistant, service=service, attended='N', is_servant='N'
                 )
                 assistant_service.save()
 
@@ -126,10 +125,10 @@ def services_list(request):
                 'day': datetime.strftime(s.day, '%Y-%m-%d'),
                 'hour': s.hour,
                 'max_attendees': s.max_attendees,
-                'inscribed': AssistantService.objects.filter(service_id=s.id, assistant__is_servant='N').count(),
-                'attendees': AssistantService.objects.filter(attended='Y', service_id=s.id, assistant__is_servant='N').count(),
-                'diference_to_delete': AssistantService.objects.filter(service_id=s.id, assistant__is_servant='N').count() - AssistantService.objects.filter(attended='Y', service_id=s.id, assistant__is_servant='N').count(),
-                'severants': AssistantService.objects.filter(service_id=s.id, attended='Y', assistant__is_servant='Y').count(),
+                'inscribed': AssistantService.objects.filter(service_id=s.id, is_servant='N').count(),
+                'attendees': AssistantService.objects.filter(attended='Y', service_id=s.id, is_servant='N').count(),
+                'diference_to_delete': AssistantService.objects.filter(service_id=s.id, is_servant='N').count() - AssistantService.objects.filter(attended='Y', service_id=s.id, is_servant='N').count(),
+                'servants': AssistantService.objects.filter(service_id=s.id, attended='Y', is_servant='Y').count(),
             } for s in Service.objects.filter(state='Y')
         ]
 
@@ -169,7 +168,7 @@ def service_assistants(request, service_pk):
                 'service_id': a.service_id,
                 'service_assistant_id': a.id,
                 'attended': a.attended,
-                'is_servant': a.assistant.is_servant
+                'is_servant': a.is_servant
             } for a in assistants_list
         ]
 
@@ -368,12 +367,11 @@ def register_servant(request):
                         assistant.phone = phone
                         assistant.age = age
                         assistant.address = address
-                        assistant.is_servant = 'Y'
                         assistant.save()
                     except Assistant.DoesNotExist:
                         assistant = Assistant(
                             user=user, id=user.username, name=user.first_name,
-                            last_name=user.last_name, phone=phone, age=age, is_servant='Y', address=address
+                            last_name=user.last_name, phone=phone, age=age, address=address
                         )
                         assistant.save()
 
@@ -402,7 +400,7 @@ def register_servant(request):
                                 general_discomfort=general_discomfort, respiratory_difficulty=respiratory_difficulty,
                                 adinamia=adinamia, nasal_secretions=nasal_secretions, diarrhea=diarrhea,
                                 temperature=temperature, close_person=close_person, washed=washed, agree=agree,
-                                created_date=timezone.now()
+                                created_date=timezone.now(), is_servant='Y'
                             )
                         )
 
