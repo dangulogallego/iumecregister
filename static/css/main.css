@@ -601,3 +601,7 @@ input {
 #login-container {
   min-height: 250px;
 }
+
+.allign-dates >label >input {
+  position: absolute;;
+}
