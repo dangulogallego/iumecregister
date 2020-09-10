@@ -63,3 +63,4 @@ class AssistantService(models.Model):
     washed = models.CharField(max_length=1, default='N', null=True)
     agree = models.CharField(max_length=1, default='N', null=True)
     is_servant = models.CharField(max_length=1, null=True, default='N', choices=BooleanChoises)
+    was_returned = models.CharField(max_length=1, null=True, default='N', choices=BooleanChoises)

@@ -22,6 +22,7 @@
                   <th scope="col">Apellidos</th>
                   <th scope="col">Asistió</th>
                   <th scope="col">¿Es Servidor?</th>
+                  <th scope="col">¿Fue Devuelto?</th>
                 </tr>
               </thead>
               <tbody>
@@ -30,7 +31,7 @@
                     <td style="text-align: center;">
                       <a href="{% url 'complete_assistant' assistant_service_pk=assistant.service_assistant_id %}"><i style="font-size: 18px;" class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                       <a style="margin-left: 7px;" href="{% url 'edit_assistant' assistant_service_pk=assistant.service_assistant_id %}"><i style="font-size: 18px;" class="fa fa fa-user" aria-hidden="true"></i></a>
-                      {% if assistant.attended != 'Y' %}
+                      {% if assistant.was_returned == 'N' and assistant.attended == 'N' %}
                         <a style="margin-left: 7px;" href="{% url 'remove_non_attendee' assistant_service_pk=assistant.service_assistant_id %}"><i style="font-size: 18px;color: red;" class="fa fa-trash" aria-hidden="true"></i></a>
                       {% endif %}
                     </td>
@@ -39,6 +40,7 @@
                     <td style="font-style:italic;">{{assistant.last_name}}</td>
                     <td style="font-style:italic;text-align: center;">{{assistant.attended | parse_yes_not}}</td>
                     <td style="font-style:italic;text-align: center;">{{assistant.is_servant | parse_yes_not}}</td>
+                    <td style="font-style:italic;text-align: center;">{{assistant.was_returned | parse_yes_not}}</td>
                   </tr>
                 {% endfor %}
               </tbody>

@@ -53,7 +53,7 @@ class AssistantServiceAdmin(admin.ModelAdmin):
     )
 
     actions = [export_as_xls]
-    list_filter = ('service__day', 'attended_date', 'service__state', 'service__hour', 'is_servant')
+    list_filter = ('service__day', 'attended_date', 'service__state', 'service__hour', 'is_servant', 'was_returned')
     search_fields = ('assistant_id', 'get_assistan_name',)
 
     def get_date_attended(self, obj):

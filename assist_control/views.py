@@ -58,8 +58,8 @@ def register_assistance(request):
                 success = False
 
             if next:
-                # Se excluye a los servidores de los cupos disponibles
-                if not AssistantService.objects.filter(service_id=date_id, is_servant='N').count() < service.max_attendees:
+                # Se excluye a los servidores y los que fueron devueltos de los cupos disponibles.
+                if not AssistantService.objects.filter(service_id=date_id, is_servant='N', was_returned='N').count() < service.max_attendees:
                     next = False
                     message = '¡Lo sentimos! Ya no hay cupo para el día (' + date_service + '), por favor intenta en otro horario.'
                     success = False
@@ -91,7 +91,7 @@ def register_assistance(request):
                     assistant.save()
 
                 assistant_service = AssistantService(
-                    assistant = assistant, service=service, attended='N', is_servant='N'
+                    assistant=assistant, service=service, attended='N', is_servant='N', was_returned='N'
                 )
                 assistant_service.save()
 
@@ -125,10 +125,11 @@ def services_list(request):
                 'day': datetime.strftime(s.day, '%Y-%m-%d'),
                 'hour': s.hour,
                 'max_attendees': s.max_attendees,
-                'inscribed': AssistantService.objects.filter(service_id=s.id, is_servant='N').count(),
-                'attendees': AssistantService.objects.filter(attended='Y', service_id=s.id, is_servant='N').count(),
-                'diference_to_delete': AssistantService.objects.filter(service_id=s.id, is_servant='N').count() - AssistantService.objects.filter(attended='Y', service_id=s.id, is_servant='N').count(),
-                'servants': AssistantService.objects.filter(service_id=s.id, attended='Y', is_servant='Y').count(),
+                'inscribed': AssistantService.objects.filter(service_id=s.id, is_servant='N', was_returned='N').count(),  # Quedan excluídos los servidores y los que se devuelven
+                'attendees': AssistantService.objects.filter(attended='Y', service_id=s.id, is_servant='N', was_returned='N').count(),
+                'diference_to_delete': AssistantService.objects.filter(service_id=s.id, is_servant='N', was_returned='N').count() - AssistantService.objects.filter(attended='Y', service_id=s.id, is_servant='N', was_returned='N').count(),
+                'servants': AssistantService.objects.filter(service_id=s.id, attended='Y', is_servant='Y', was_returned='N').count(),
+                'returned': AssistantService.objects.filter(service_id=s.id, attended='N', was_returned='Y').count()
             } for s in Service.objects.filter(state='Y')
         ]
 
@@ -168,7 +169,8 @@ def service_assistants(request, service_pk):
                 'service_id': a.service_id,
                 'service_assistant_id': a.id,
                 'attended': a.attended,
-                'is_servant': a.is_servant
+                'is_servant': a.is_servant,
+                'was_returned': a.was_returned
             } for a in assistants_list
         ]
 
@@ -189,7 +191,15 @@ def complete_assistant(request, assistant_service_pk):
         if request.method == 'POST':
             form = CompleteAssistan(request.POST, instance=assistant)
             if form.is_valid():
-                assistant_service.attended = 'Y'
+
+                was_returned = form.cleaned_data.get('was_returned', False)
+                if was_returned:
+                    assistant_service.was_returned = 'Y'
+                    assistant_service.attended = 'N'
+                else:
+                    assistant_service.was_returned = 'N'
+                    assistant_service.attended = 'Y'
+
                 assistant_service.attended_date = timezone.now()
                 symptoms = form.cleaned_data.get('symptoms', [])
                 assistant_service.fever = 'Y' if 'f' in symptoms else 'N'
@@ -235,7 +245,8 @@ def complete_assistant(request, assistant_service_pk):
                 'close_person': True if assistant_service.close_person == 'Y' else False,
                 'agree': True if assistant_service.agree == 'Y' else False,
                 'temperature': assistant_service.temperature if assistant_service.temperature else None,
-                'symptoms': symptoms
+                'symptoms': symptoms,
+                'was_returned': True if assistant_service.was_returned == 'Y' else False
             })
 
             return render(request, 'assistants/complete_assistant.html', {
@@ -278,8 +289,9 @@ def edit_assistant(request, assistant_service_pk):
 
 def remove_non_attendees(request, service_pk):
     if request.user.is_authenticated:
+        # Eliminar los asistentes que no llegaron y que no fueron devueltos.
         AssistantService.objects.filter(
-            service_id=service_pk, attended='N'
+            service_id=service_pk, attended='N', was_returned='N'
         ).delete()
 
         return redirect('services_list')
@@ -400,7 +412,7 @@ def register_servant(request):
                                 general_discomfort=general_discomfort, respiratory_difficulty=respiratory_difficulty,
                                 adinamia=adinamia, nasal_secretions=nasal_secretions, diarrhea=diarrhea,
                                 temperature=temperature, close_person=close_person, washed=washed, agree=agree,
-                                created_date=timezone.now(), is_servant='Y'
+                                created_date=timezone.now(), is_servant='Y', was_returned='N'
                             )
                         )
 

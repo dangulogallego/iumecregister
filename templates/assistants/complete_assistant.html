@@ -18,7 +18,7 @@
                 </div>
               {% endfor %}
               <div class="row">
-                {% if assistant_service.attended != 'Y' %}
+                {% if assistant_service.attended != 'Y' and assistant_service.was_returned != 'Y' %}
                   <div class="col col-md-4 col-lg-4">
                     <button type="submit" class="btn btn-primary text-center">Guardar</button>
                   </div>

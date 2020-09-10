@@ -45,6 +45,7 @@ class CompleteAssistan(ModelForm):
     close_person = forms.BooleanField(required=False)
     washed = forms.BooleanField(required=False)
     agree = forms.BooleanField(required=False)
+    was_returned = forms.BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):
         super(CompleteAssistan, self).__init__(*args, **kwargs)
@@ -59,6 +60,7 @@ class CompleteAssistan(ModelForm):
         self.fields['close_person'].label = "¿Ha estado en contacto con alguien que presente los anteriores sintomas en las últimas 24 horas?"
         self.fields['washed'].label = "¿Realizó el lavado o desinfección de las manos antes de ingresar a las instalaciones?"
         self.fields['agree'].label = "¿Está de acuerdo en cumplir a cabalidad con todas las recomendaciones y los procedimientos que la iglesia ha adoptado para la preservación de su salud?"
+        self.fields['was_returned'].label = "¿Se le niega el ingreso a las instalaciones y se recomienda que regrese a casa?"
 
     class Meta:
         model = Assistant

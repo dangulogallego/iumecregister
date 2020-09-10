@@ -37,7 +37,7 @@
               <div class="row">
                 <div class="col-12 col-md-6">
                   <div class="input-group">
-                      <input class="input--style-2" type="number" placeholder="Edad" id="age" name="age" required>
+                      <input class="input--style-2" type="number" placeholder="Edad" id="age" name="age" required min="14">
                   </div>
                 </div>
                 <div class="col-12 col-md-6">
@@ -65,7 +65,13 @@
               <div style="padding-top: 20px;">
                   <button class="btn btn--radius btn--green" {% if not dates %} disabled {% endif %} type="submit">Enviar</button>
               </div>
-              <label style="font-style:italic;color:#666;font-size: 13px;margin-top: 11px;"><b>Nota:</b> <li>Sólo es posible registrarse a un servicio a la vez.</li> <li><b>NO</b> se permitirá el ingreso a menores de 14 años.</li></label>
+              <label style="font-style:italic;color:#666;font-size: 13px;margin-top: 11px;">
+                <b>Notas:</b>
+                <li>Sólo es posible registrarse a un servicio a la vez.</li>
+                <li><b>NO</b> se permitirá el ingreso a menores de 14 años.</li>
+                <li>Se recomienda estar 10 minutos antes en el sitio para evitar aglomeraciones.</li>
+                <li>Se recomienda que si padece de alguna <b>Enfermedad de Base</b> evite asistir a las reuniones.</li>
+              </label>
             </form>
         </div>
     </div>
